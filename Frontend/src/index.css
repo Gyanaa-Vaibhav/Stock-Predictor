@@ -1,0 +1,16 @@
+body{
+  margin: 0;
+  padding: 0;
+  background-color: #f6f6f6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}

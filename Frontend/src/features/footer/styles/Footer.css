@@ -1,0 +1,32 @@
+/* Styles for footer */
+footer {
+    margin: 1rem auto;
+    font-size: 1.125rem;
+    font-weight: 400;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+@media screen and (max-width: 1200px) {
+    footer {
+        font-size: 1.125rem;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    footer {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    footer {
+        font-size: 0.85rem;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    footer {
+        font-size: 0.75rem;
+    }
+}
