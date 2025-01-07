@@ -73,11 +73,22 @@ cd stock-price-predictor
    ```bash
    npm install
    ```
-3. Start the development server:
+3. Create a `.env` file in the backend directory with the following content:
+   ```env
+   VITE_SERVER_IP=http://localhost:5172
+   ```
+4. Start the development server:
    ```bash
    npm run dev
    ```
    The application will run on `http://localhost:5173`.
+5. comment out these lines in vite.config.ts
+   ```
+   build: {
+       outDir: '/var/www/html/StockPredictor',
+       emptyOutDir: true,
+     },
+   ```
 
 ---
 
