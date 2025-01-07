@@ -55,9 +55,13 @@ cd stock-price-predictor
    OPENAI_KEY=your-openai-api-key
    POLYGON_KEY=your-polygon-api-key
    ```
-4. Start the server:
+4. Start the Typescript Complier:
    ```bash
-   npm start
+   npm run compile
+   ```
+5. Start the server:
+   ```bash
+   npm run dev
    ```
    The server will run on `http://localhost:5172`.
 
