@@ -126,7 +126,7 @@ input[type="text"] {
 }
 
 .generate-report-btn {
-    width: 75%;
+    max-width: fit-content;
     padding: 0.87em 1.25em;
     cursor: pointer;
     font-weight: 800;

@@ -3,6 +3,8 @@ import loader from '/loader.svg?url'
 import add from '/add.svg?url'
 import deleteIcon from '/delete_icon.svg?url';
 import { MouseEvent, useEffect, useRef, useState } from 'react';
+import Charts from "./Charts.tsx";
+import { StockData} from "../types/Main.ts";
 
 const Main = () => { 
     const [showTickers, setShowTickers] = useState<boolean>(false)
@@ -13,8 +15,22 @@ const Main = () => {
     const [stockData, setStockData] = useState<string[]>([]);
     const [reportData, setReportData] = useState<string>('');
 
+    const [reportMessage,setReportMessage] = useState<string>('');
+    const [reportPrices,setReportPrices] = useState<StockData[][]>([]);
+
     const loadingRef = useRef<HTMLDivElement | null>(null);
 
+    useEffect(() => {
+        if(!reportData) return
+
+        const parsed = (JSON.parse(reportData))
+        const data = tickerList.map(q => {
+            return parsed[q]
+        })
+
+        setReportPrices(data)
+        setReportMessage(parsed.message)
+    }, [reportData, tickerList]);
     
     function handelClick(e: MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
@@ -28,6 +44,7 @@ const Main = () => {
 
     function handelRestart() {
         setTickerList([]);
+        setReportMessage('');
         setShowReport(false);
         setLoadingReport(false);
         setShowTickers(false);
@@ -154,19 +171,22 @@ const Main = () => {
                     </section>
                 }
                 {showReport &&
-                    <div className='report-screen'>
-                        <section className="output-panel">
-                            <h2>Your Report 😜</h2>
-                            <p>{reportData}</p>
-                        </section>
-                        <button
-                            className='generate-report-btn'
-                            type="button"
-                            onClick={handelRestart}
-                        >
-                            Start Again
-                        </button>
-                    </div>
+                    <>
+                        <div className='report-screen'>
+                            <Charts tickerList={tickerList} reportPrices={reportPrices}/>
+                            <section className="output-panel">
+                                <h2>Your Report 😜</h2>
+                                <p>{reportMessage || 'Please try again API keys exhausted, Try contacting Developer for more info'}</p>
+                            </section>
+                            <button
+                                className='generate-report-btn'
+                                type="button"
+                                onClick={handelRestart}
+                            >
+                                Start Again
+                            </button>
+                        </div>
+                    </>
                 }
             </main>
         </>

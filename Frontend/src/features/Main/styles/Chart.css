@@ -1,0 +1,90 @@
+.chat-data-name{
+    display: flex;
+    gap: 1rem;
+}
+
+.chart-name {
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 0.6rem 1.5rem;
+    transition: scale 250ms ease, box-shadow 250ms ease, background-color 250ms ease;
+    background-color: rgba(0, 123, 255, 0.8);
+    font-weight: 600;
+    font-size: 1rem;
+    display: inline-block;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover effect */
+.chart-name:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 123, 255, 1);
+    color: #f9f9f9;
+}
+
+.chart-name:active {
+    background-color: rgba(0, 92, 204, 1);
+    transform: scale(0.95);
+    color: #eaeaea;
+}
+
+#active {
+    background-color: rgba(0, 92, 204, 1);
+    transform: scale(0.90);
+    color: #eaeaea;
+}
+
+#active:hover {
+    box-shadow:none;
+}
+
+.canvas{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    width: 100%;
+    max-width: 650px;
+    height: auto;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.canvas h1{
+    margin: 0.5rem;
+    font-weight: 600;
+}
+
+#price-chart{
+    margin-top: 20px;
+}
+
+canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+}
+
+@media screen and (max-width: 768px) {
+    .canvas {
+        max-width: 90%;
+    }
+    canvas {
+        height: 300px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .canvas {
+        max-width: 95%;
+    }
+    canvas {
+        height: 250px;
+    }
+}
