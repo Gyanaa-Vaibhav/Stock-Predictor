@@ -6,7 +6,10 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 import Charts from "./Charts.tsx";
 import { StockData} from "../types/Main.ts";
 
-const Main = () => { 
+const Main = () => {
+    const url = import.meta.env.VITE_SERVER_IP || ''
+    console.log(url)
+
     const [showTickers, setShowTickers] = useState<boolean>(false)
     const [ticker, setTicker] = useState<string>('');
     const [tickerList, setTickerList] = useState<string[]>([])
@@ -60,7 +63,7 @@ const Main = () => {
     function generateReport() {
         setLoadingReport(true);
 
-        fetch('http://localhost:5172/stock-data', {
+        fetch(`${url}/stock-data`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -87,7 +90,7 @@ const Main = () => {
 
     useEffect(() => {
         if (stockData.length !== 0) {
-            fetch('http://localhost:5172/prediction', {
+            fetch(`${url}/prediction`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'

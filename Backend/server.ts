@@ -2,6 +2,8 @@ import express from 'express';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from "node:path";
+import * as url from "node:url";
 import { dates } from './dates.js';
 import {PolygonData, StockData} from "./Types";
 
@@ -11,15 +13,23 @@ const openAI = new OpenAI({
     apiKey: process.env.OPENAI_KEY,
 });
 
-const app = express();
-const PORT = 5172
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename)
 
+const homeDir = process.env.PRODUCTION
+    ? path.join(__dirname, '..','..','..','html','StockPredictor')
+    : path.join(__dirname,'..','..','Frontend','build')
+
+
+const app = express();
+const PORT = process.env.PORT || 5172;
 
 app.use(cors());
 app.use(express.json())
+app.use(express.static(homeDir));
 
-app.get('/', (req, res) => {
-    res.send("Hello")
+app.get('*', (req, res) => {
+    res.sendFile(path.join(homeDir,'index.html'))
 })
 
 app.post('/stock-data', async (req, res, next) => {
@@ -72,7 +82,6 @@ app.post("/prediction", async (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Listening on Port ${PORT}`);
-
 })
 
 
