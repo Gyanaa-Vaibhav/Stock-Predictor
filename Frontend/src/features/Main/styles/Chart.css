@@ -71,6 +71,10 @@ canvas {
     position: relative;
 }
 
+.no-data{
+    margin-top: 0.75rem;
+}
+
 @media screen and (max-width: 768px) {
     .canvas {
         max-width: 90%;

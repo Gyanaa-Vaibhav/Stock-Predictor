@@ -16,27 +16,35 @@ export default function Charts({tickerList,reportPrices}:Props) {
 
     const [datae,setData] = useState<StockData[]>([]);
     const [currentChart,setCurrentChart] = useState<string>('');
+    const [noData,setNoData] = useState<boolean>(false);
 
     function handelClick(d:string,s:number){
         setCurrentChart(d)
+        if(reportPrices[s] === undefined){
+            setNoData(true)
+            return
+        }
+        setNoData(false)
         setData(reportPrices[s])
     }
 
     useEffect(() => {
         setCurrentChart(tickerList[0])
+        if(reportPrices[0] === undefined){
+            setNoData(true)
+        }
+        setNoData(false)
         setData(reportPrices[0]);
     }, [reportPrices, tickerList]);
 
     useEffect(() => {
-
         const ctx = document.getElementById("price-chart") as HTMLCanvasElement;
 
         if (chartRef.current) {
-            chartRef.current.destroy(); // Destroy the previous chart instance
+            chartRef.current.destroy();
         }
 
-        console.log(ctx.getBoundingClientRect());
-
+        if(noData) return
         if (datae && datae.length > 0) {
             chartRef.current = new Chart(ctx, {
                 type: "line",
@@ -146,7 +154,10 @@ export default function Charts({tickerList,reportPrices}:Props) {
                 </p>)
                 }
             </div>
-                <canvas id="price-chart"></canvas>
+                {!noData
+                    ? <canvas id="price-chart"></canvas>
+                    : <h2 className='no-data'>No data available</h2>
+                }
             </div>
         </>
     );

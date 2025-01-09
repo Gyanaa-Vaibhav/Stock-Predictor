@@ -8,7 +8,6 @@ import { StockData} from "../types/Main.ts";
 
 const Main = () => {
     const url = import.meta.env.VITE_SERVER_IP || ''
-    console.log(url)
 
     const [showTickers, setShowTickers] = useState<boolean>(false)
     const [ticker, setTicker] = useState<string>('');
@@ -17,6 +16,7 @@ const Main = () => {
     const [showReport, setShowReport] = useState<boolean>(false);
     const [stockData, setStockData] = useState<string[]>([]);
     const [reportData, setReportData] = useState<string>('');
+    const [showError,setShowError] = useState<boolean>(false);
 
     const [reportMessage,setReportMessage] = useState<string>('');
     const [reportPrices,setReportPrices] = useState<StockData[][]>([]);
@@ -34,12 +34,23 @@ const Main = () => {
         setReportPrices(data)
         setReportMessage(parsed.message)
     }, [reportData, tickerList]);
-    
+
+    useEffect(() => {
+        if(showError){
+            setTimeout(() => {
+                setShowError(false)
+            },2000)
+        }
+    }, [showError]);
+
     function handelClick(e: MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
         if (ticker === '') return
+
         const exists = tickerList.find(t => t === ticker.toUpperCase())
         if(exists) return
+
+        if(tickerList.length >= 3) return setShowError(true);
         setTickerList(prev => [...prev, ticker.toUpperCase()]);
         setTicker('');
         setShowTickers(true);
@@ -109,11 +120,19 @@ const Main = () => {
                 })
         }
             
-    },[stockData])
+    },[stockData, url])
 
     return (
         <>
             <main>
+                {showError &&
+                    <div className='error-handel'>
+                        <div className="error-block">
+                            Only 3 Stocks allowed
+                            <div className="error-bar"></div>
+                        </div>
+                    </div>
+                }
                 {!loadingReport
                     ?
                     !showReport &&
@@ -125,13 +144,13 @@ const Main = () => {
                                     onChange={(e) => setTicker(e.target.value)}
                                     value={ticker}
                                     type="text"
-                                    id="ticker-input"
+                                    className={`ticker-input ${showError ?'error':''}`}
                                     placeholder="MSFT"
                                     autoComplete='off'
                                 />
                                 <button
                                     onClick={(e)=>handelClick(e)}
-                                    className="add-ticker-btn"
+                                    className={`add-ticker-btn ${showError ?'error':''}`}
                                     type="submit"
                                 >
                                     <img src={add} className="add-ticker-svg" alt="add"/>
